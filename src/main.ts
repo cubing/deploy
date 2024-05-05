@@ -51,7 +51,7 @@ Target URLs may include any of the following options:
 const { values } = parseArgs({
   args: argv.slice(2),
   options: {
-    "help": {
+    help: {
       type: "boolean",
     },
     "dry-run": {
@@ -73,8 +73,9 @@ function printCommand(c: string[]): void {
 }
 
 interface TargetOptions {
-  fromLocalDir?: string
+  fromLocalDir?: string;
 }
+const targetOptionsFields = { fromLocalDir: true }; // TODO: make this more DRY
 
 function ensureTrailingSlash(s: string): string {
   if (s.at(-1) !== "/") {
@@ -84,15 +85,22 @@ function ensureTrailingSlash(s: string): string {
 }
 
 // TODO: reuse connections based on domain or host IP.
-async function deployTarget(targetURL: string, targetOptions: TargetOptions): Promise<void> {
-  targetURL = ensureTrailingSlash(targetURL); // // Only sync folder contents.
+async function deployTarget(
+  targetURL: string,
+  targetOptions: TargetOptions,
+): Promise<void> {
+  // biome-ignore lint/style/noParameterAssign: Safety mechanism.
+  targetURL = ensureTrailingSlash(targetURL); // Only sync folder contents.
+
   const url = new URL(targetURL); // TODO: avoid URL encoding special chars
 
   let localDistPath: string;
   if (targetOptions.fromLocalDir) {
     localDistPath = ensureTrailingSlash(targetOptions.fromLocalDir);
   } else {
-   localDistPath = ensureTrailingSlash(`./dist/web/${url.hostname}${url.pathname}`);
+    localDistPath = ensureTrailingSlash(
+      `./dist/web/${url.hostname}${url.pathname}`,
+    );
   }
 
   const rsyncCommand = ["rsync", "-avz"];
@@ -145,18 +153,23 @@ if (values.help) {
 }
 
 const packageJSONFile = Bun.file("package.json");
-if (! (await packageJSONFile.exists()) ) {
-  console.error("Please run `@cubing/deploy` in a folder with a `package.json` file.")
+if (!(await packageJSONFile.exists())) {
+  console.error(
+    "Please run `@cubing/deploy` in a folder with a `package.json` file.",
+  );
   printHelpAndExit();
 }
 const packageJSON = await packageJSONFile.json();
-const cubingDeployArgs: Record<string, TargetOptions>[] = packageJSON["@cubing/deploy"];
+const cubingDeployArgs: Record<string, TargetOptions>[] =
+  packageJSON["@cubing/deploy"];
 if (!cubingDeployArgs) {
   console.error("No `@cubing/deploy` entry was found in `package.json`.");
   printHelpAndExit();
 }
 if (typeof cubingDeployArgs !== "object") {
-  console.error("The `@cubing/deploy` in `package.json` must be an object with URLs as keys.");
+  console.error(
+    "The `@cubing/deploy` in `package.json` must be an object with URLs as keys.",
+  );
   printHelpAndExit();
 }
 // TODO: warn on unrecognized fields
@@ -164,6 +177,20 @@ const targetEntries = Object.entries(cubingDeployArgs);
 
 if (targetEntries.length === 0) {
   printHelpAndExit();
+}
+
+let anyInvalidOptions = false;
+for (const [targetURL, targetOptions] of targetEntries) {
+  for (const key of Object.keys(targetOptions)) {
+    if (!(key in targetOptionsFields)) {
+      console.error(`Unknown option for target: ${targetURL}`);
+      console.error(`Unknown option key: ${key}`);
+      anyInvalidOptions = true;
+    }
+  }
+}
+if (anyInvalidOptions) {
+  exit(1);
 }
 
 for (const targetEntry of targetEntries) {
