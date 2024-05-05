@@ -159,6 +159,7 @@ if (typeof cubingDeployArgs !== "object") {
   console.error("The `@cubing/deploy` in `package.json` must be an object with URLs as keys.");
   printHelpAndExit();
 }
+// TODO: warn on unrecognized fields
 const targetEntries = Object.entries(cubingDeployArgs);
 
 if (targetEntries.length === 0) {
