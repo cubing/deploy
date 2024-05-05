@@ -106,10 +106,15 @@ Successfully deployed:
   }
 }
 
-const packageJSON = await Bun.file("package.json").json();
+const packageJSONFile = Bun.file("package.json");
+if (! (await packageJSONFile.exists()) ) {
+  console.error("Please run `@cubing/deploy` in a folder with a `package.json` file.")
+  printHelpAndExit();
+}
+const packageJSON = await packageJSONFile.json();
 const cubingDeployArgs = packageJSON["@cubing/deploy"];
 if (!cubingDeployArgs) {
-  console.log("No `@cubing/deploy` entry was found in `package.json`");
+  console.error("No `@cubing/deploy` entry was found in `package.json`");
   printHelpAndExit();
 }
 const urlStrings = Object.keys(cubingDeployArgs);
