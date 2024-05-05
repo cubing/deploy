@@ -9,22 +9,40 @@ function printHelpAndExit(): void {
   console.log(
     `Usage: bun x @cubing/deploy
 
+Deploy to a shared host like Dreamhost with minimal configuration.
+
 Options:
 
+    --help
     --dry-run
     --create-folder-on-server
 
-Requires \`bun\` and \`rsync\` to be installed. Reads paths from a field in \`package.json\` in the current folder:
+Requires \`bun\` and \`rsync\` to be installed. Reads target URLs from a field in \`package.json\` in the current folder:
 
 {
   "@cubing/deploy": {
     "https://experiments.cubing.net/test/deploy": {}
-  }
+  },
 }
 
-This example will be deployed from:
+This example will be deployed from the following folder:
 
-    ./dist/web/experiments.cubing.net/test/deploy
+    ./dist/web/experiments.cubing.net/test/deploy/
+
+The following ignored patterns are always included:
+
+- \`.git\`
+- \`.DS_Store\` (impossible to prevent macOS from creating)
+
+Target URLs may include any of the following options:
+
+{
+  "@cubing/deploy": {
+    "https://experiments.cubing.net/test/deploy": {
+      "fromLocalDir": "./dist/custom-path/"
+    }
+  }
+}
 `,
   );
   exit(1);
@@ -33,6 +51,9 @@ This example will be deployed from:
 const { values } = parseArgs({
   args: argv.slice(2),
   options: {
+    "help": {
+      type: "boolean",
+    },
     "dry-run": {
       type: "boolean",
     },
@@ -51,15 +72,28 @@ function printCommand(c: string[]): void {
   console.log(c.map((s) => `"${barebonesShellEscape(s)}"`).join(" "));
 }
 
-// TODO: reuse connections based on domain or host IP.
-async function deployURL(urlString: string): Promise<void> {
-  if (urlString.at(-1) !== "/") {
-    // biome-ignore lint/style/noParameterAssign: Safety check
-    urlString = `${urlString}/`; // Only sync folder contents.
-  }
-  const url = new URL(urlString); // TODO: avoid URL encoding special chars
+interface TargetOptions {
+  fromLocalDir?: string
+}
 
-  const localDistPath = `./dist/web/${url.hostname}${url.pathname}`;
+function ensureTrailingSlash(s: string): string {
+  if (s.at(-1) !== "/") {
+    return `${s}/`;
+  }
+  return s;
+}
+
+// TODO: reuse connections based on domain or host IP.
+async function deployTarget(targetURL: string, targetOptions: TargetOptions): Promise<void> {
+  targetURL = ensureTrailingSlash(targetURL); // // Only sync folder contents.
+  const url = new URL(targetURL); // TODO: avoid URL encoding special chars
+
+  let localDistPath: string;
+  if (targetOptions.fromLocalDir) {
+    localDistPath = ensureTrailingSlash(targetOptions.fromLocalDir);
+  } else {
+   localDistPath = ensureTrailingSlash(`./dist/web/${url.hostname}${url.pathname}`);
+  }
 
   const rsyncCommand = ["rsync", "-avz"];
   // rsyncCommand.push("--mkpath"); // TODO: requires `rsync` v3.2.3 (https://stackoverflow.com/a/65435579) but Dreamhost is stuck on 3.1.3. 😖
@@ -106,23 +140,31 @@ Successfully deployed:
   }
 }
 
+if (values.help) {
+  printHelpAndExit();
+}
+
 const packageJSONFile = Bun.file("package.json");
 if (! (await packageJSONFile.exists()) ) {
   console.error("Please run `@cubing/deploy` in a folder with a `package.json` file.")
   printHelpAndExit();
 }
 const packageJSON = await packageJSONFile.json();
-const cubingDeployArgs = packageJSON["@cubing/deploy"];
+const cubingDeployArgs: Record<string, TargetOptions>[] = packageJSON["@cubing/deploy"];
 if (!cubingDeployArgs) {
-  console.error("No `@cubing/deploy` entry was found in `package.json`");
+  console.error("No `@cubing/deploy` entry was found in `package.json`.");
   printHelpAndExit();
 }
-const urlStrings = Object.keys(cubingDeployArgs);
+if (typeof cubingDeployArgs !== "object") {
+  console.error("The `@cubing/deploy` in `package.json` must be an object with URLs as keys.");
+  printHelpAndExit();
+}
+const targetEntries = Object.entries(cubingDeployArgs);
 
-if (urlStrings.length === 0) {
+if (targetEntries.length === 0) {
   printHelpAndExit();
 }
 
-for (const urlString of urlStrings) {
-  await deployURL(urlString);
+for (const targetEntry of targetEntries) {
+  await deployTarget(...targetEntry);
 }
