@@ -1,0 +1,14 @@
+{
+  "name": "@cubing/deploy",
+  "version": "0.1.0",
+  "module": "src/main.ts",
+  "type": "module",
+  "devDependencies": {
+    "@biomejs/biome": "^1.7.2",
+    "@types/bun": "latest",
+    "typescript": "^5.4.5"
+  },
+  "@cubing/deploy": {
+    "https://experiments.cubing.net/test/deploy": {}
+  }
+}
