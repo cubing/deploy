@@ -3,8 +3,9 @@ import { printHelpAndExit } from "./options";
 
 export interface TargetOptions {
   fromLocalDir?: string;
+  additionalExcludes?: string[];
 }
-const targetOptionsFields = { fromLocalDir: true }; // TODO: make this more DRY
+const targetOptionsFields = { fromLocalDir: true, additionalExcludes: true }; // TODO: make this more DRY
 
 const packageJSONFile = Bun.file("package.json");
 if (!(await packageJSONFile.exists())) {
@@ -33,6 +34,7 @@ if (targetEntries.length === 0) {
   printHelpAndExit();
 }
 
+// TODO: proper schema validation
 let anyInvalidOptions = false;
 for (const [targetURL, targetOptions] of targetEntries) {
   for (const key of Object.keys(targetOptions)) {

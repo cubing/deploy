@@ -37,7 +37,8 @@ Target URLs may include any of the following options:
 {
   "@cubing/deploy": {
     "https://experiments.cubing.net/test/deploy": {
-      "fromLocalDir": "./dist/custom-path/"
+      "fromLocalDir": "./dist/custom-path/",
+      "additionalExcludes": [".cache"]
     }
   }
 }

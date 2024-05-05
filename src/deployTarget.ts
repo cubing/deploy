@@ -39,7 +39,10 @@ export async function deployTarget(
   const rsyncCommand = ["rsync", "-avz"];
   // rsyncCommand.push("--mkpath"); // TODO: requires `rsync` v3.2.3 (https://stackoverflow.com/a/65435579) but Dreamhost is stuck on 3.1.3. 😖
   rsyncCommand.push("--exclude", ".DS_Store");
-  rsyncCommand.push("--exclude", ".git"); // TODO: we probably don't need this?
+  rsyncCommand.push("--exclude", ".git");
+  for (const additionalExclude of targetOptions.additionalExcludes ?? []) {
+    rsyncCommand.push("--exclude", additionalExclude);
+  }
   rsyncCommand.push(localDistPath);
 
   let login_host = url.hostname;
