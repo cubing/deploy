@@ -21,6 +21,10 @@ Requires \`bun\` and \`rsync\` to be installed. Reads paths from a field in \`pa
     "https://experiments.cubing.net/test/deploy": {}
   }
 }
+
+This example will be deployed from:
+
+    ./dist/web/experiments.cubing.net/test/deploy
 `,
   );
   exit(1);
