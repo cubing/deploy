@@ -1,3 +1,5 @@
+#!/usr/bin/env bun
+
 import assert from "node:assert";
 import { exit } from "node:process";
 import { parseArgs } from "node:util";
