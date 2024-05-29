@@ -9,3 +9,7 @@ format:
 .PHONY: publish
 publish:
 	npm publish
+
+.PHONY: update-readme-cli-help
+update-readme-cli-help:
+	bun x readme-cli-help --expect-exit-code 1 "bun run src/main.ts --help"

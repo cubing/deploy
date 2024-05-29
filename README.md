@@ -25,3 +25,45 @@ npm install --save-dev @cubing/deploy
 ```shell
 bun x @cubing/deploy
 ```
+
+## More options
+
+````cli-help
+Usage: bun x @cubing/deploy
+
+Deploy to a shared host like Dreamhost with minimal configuration.
+
+Options:
+
+    --help
+    --dry-run
+    --create-folder-on-server
+
+Requires `bun` and `rsync` to be installed. Reads target URLs from a field in `package.json` in the current folder:
+
+{
+  "@cubing/deploy": {
+    "https://experiments.cubing.net/test/deploy": {}
+  },
+}
+
+This example will be deployed from the following folder:
+
+    ./dist/web/experiments.cubing.net/test/deploy/
+
+The following ignored patterns are always included:
+
+- `.git`
+- `.DS_Store` (impossible to prevent macOS from creating)
+
+Target URLs may include any of the following options:
+
+{
+  "@cubing/deploy": {
+    "https://experiments.cubing.net/test/deploy": {
+      "fromLocalDir": "./dist/custom-path/",
+      "additionalExcludes": [".cache"]
+    }
+  }
+}
+````
