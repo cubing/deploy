@@ -12,26 +12,26 @@ if (!(await packageJSONFile.exists())) {
   console.error(
     "Please run `@cubing/deploy` in a folder with a `package.json` file.",
   );
-  printHelpAndExit();
+  printHelpAndExit(1);
 }
 const packageJSON = await packageJSONFile.json();
 const cubingDeployArgs: Record<string, TargetOptions>[] =
   packageJSON["@cubing/deploy"];
 if (!cubingDeployArgs) {
   console.error("No `@cubing/deploy` entry was found in `package.json`.");
-  printHelpAndExit();
+  printHelpAndExit(1);
 }
 if (typeof cubingDeployArgs !== "object") {
   console.error(
     "The `@cubing/deploy` in `package.json` must be an object with URLs as keys.",
   );
-  printHelpAndExit();
+  printHelpAndExit(1);
 }
 
 export const targetEntries = Object.entries(cubingDeployArgs);
 
 if (targetEntries.length === 0) {
-  printHelpAndExit();
+  printHelpAndExit(1);
 }
 
 // TODO: proper schema validation

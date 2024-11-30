@@ -5,7 +5,7 @@ import { options, printHelpAndExit } from "./options";
 import { targetEntries } from "./targetEntries";
 
 if (options.help) {
-  printHelpAndExit();
+  printHelpAndExit(0);
 }
 
 for (const [targetURL, targetOptions] of targetEntries) {

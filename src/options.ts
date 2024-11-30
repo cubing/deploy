@@ -3,7 +3,7 @@ import { exit } from "node:process";
 import { parseArgs } from "node:util";
 import { argv } from "bun";
 
-export function printHelpAndExit(): void {
+export function printHelpAndExit(exitCode: number): void {
   console.log(
     `Usage: bun x @cubing/deploy
 
@@ -36,6 +36,7 @@ Target URLs may include any of the following options:
 
 {
   "@cubing/deploy": {
+    "$schema": "./node_modules/@cubing/deploy/config-schema.json",
     "https://experiments.cubing.net/test/deploy": {
       "fromLocalDir": "./dist/custom-path/",
       "additionalExcludes": [".cache"]
@@ -44,7 +45,7 @@ Target URLs may include any of the following options:
 }
 `,
   );
-  exit(1);
+  exit(exitCode);
 }
 
 export const { values: options } = parseArgs({

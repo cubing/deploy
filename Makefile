@@ -12,11 +12,11 @@ publish:
 
 .PHONY: update-readme-cli-help
 update-readme-cli-help:
-	bun x readme-cli-help --expect-exit-code 1 "bun run src/main.ts --help"
+	bun x readme-cli-help "bun run src/main.ts --help"
 
 .PHONY: check-readme-cli-help
 check-readme-cli-help:
-	bun x readme-cli-help --expect-exit-code 1 --check-only "bun run src/main.ts --help"
+	bun x readme-cli-help --check-only "bun run src/main.ts --help"
 
 .PHONY: clean
 clean:
