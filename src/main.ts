@@ -9,5 +9,8 @@ if (options.help) {
 }
 
 for (const [targetURL, targetOptions] of targetEntries) {
+  if (targetURL === "$schema") {
+    continue;
+  }
   await deployTarget(targetURL, targetOptions);
 }
