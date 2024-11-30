@@ -17,3 +17,7 @@ update-readme-cli-help:
 .PHONY: check-readme-cli-help
 check-readme-cli-help:
 	bun x readme-cli-help --expect-exit-code 1 --check-only "bun run src/main.ts --help"
+
+.PHONY: clean
+clean:
+	rm -rf ./package-lock.json
