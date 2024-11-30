@@ -4,7 +4,7 @@ lint:
 
 .PHONY: format
 format:
-	npx @biomejs/biome check ./src
+	npx @biomejs/biome check --write ./src
 
 .PHONY: publish
 publish:
