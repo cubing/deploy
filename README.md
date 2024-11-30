@@ -60,6 +60,7 @@ Target URLs may include any of the following options:
 
 {
   "@cubing/deploy": {
+    "$schema": "./node_modules/@cubing/deploy/config-schema.json",
     "https://experiments.cubing.net/test/deploy": {
       "fromLocalDir": "./dist/custom-path/",
       "additionalExcludes": [".cache"]

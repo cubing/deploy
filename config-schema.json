@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Configuration",
+  "description": "Configuration for @cubing/deploy",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "description": "A field for the [JSON schema](https://json-schema.org/) specification",
+      "type": "string"
+    }
+  },
+  "additionalProperties": {
+    "$ref": "#/definitions/DeployTarget"
+  },
+  "definitions": {
+    "DeployTarget": {
+      "description": "Deploy target custom configuration.",
+      "type": "object",
+      "properties": {
+        "fromLocalDir": {
+          "description": "Deploy from this directory instead of the default (e.g. https://example.com/path/to/dir → ./dist/web/example.com/path/to/dir).",
+          "type": ["string"]
+        },
+        "additionalExcludes": {
+          "description": "A list of additional paths to exclude.",
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}
