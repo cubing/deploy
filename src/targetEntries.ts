@@ -37,6 +37,9 @@ if (targetEntries.length === 0) {
 // TODO: proper schema validation
 let anyInvalidOptions = false;
 for (const [targetURL, targetOptions] of targetEntries) {
+  if (targetURL === "$schema") {
+    continue;
+  }
   for (const key of Object.keys(targetOptions)) {
     if (!(key in targetOptionsFields)) {
       console.error(`Unknown option for target: ${targetURL}`);
