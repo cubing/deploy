@@ -21,3 +21,6 @@ check-readme-cli-help:
 .PHONY: clean
 clean:
 	rm -rf ./package-lock.json
+
+.PHONY: prepublishOnly
+prepublishOnly: lint check-readme-cli-help
