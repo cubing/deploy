@@ -55,7 +55,7 @@ export async function deployTarget(
   const rsyncTarget = `${login_host}:~/${serverFolder}`;
   rsyncCommand.push(rsyncTarget);
 
-  const sshCommand = [
+  const sshMkdirCommand = [
     "ssh",
     login_host,
     `mkdir -p "${barebonesShellEscape(serverFolder)}"`,
@@ -67,19 +67,40 @@ export async function deployTarget(
   if (options["dry-run"]) {
     if (options["create-folder-on-server"]) {
       console.write("[--dry-run] ");
-      printCommand(sshCommand);
+      printCommand(sshMkdirCommand);
     }
     console.write("[--dry-run] ");
     printCommand(rsyncCommand);
   } else {
     if (options["create-folder-on-server"]) {
-      assert((await Bun.spawn(sshCommand).exited) === 0);
+      assert((await Bun.spawn(sshMkdirCommand).exited) === 0);
     }
-    assert((await Bun.spawn(rsyncCommand).exited) === 0);
+    if ((await Bun.spawn(rsyncCommand).exited) !== 0) {
+      if (
+        await askYesNoWithDefaultYes(
+          "Deployment failed. Try again by creating folder on the server?",
+        )
+      ) {
+        assert((await Bun.spawn(sshMkdirCommand).exited) === 0);
+        assert((await Bun.spawn(rsyncCommand).exited) === 0);
+      }
+    }
     console.log(`
 Successfully deployed:
 
     ${url}
 `);
   }
+}
+
+async function askYesNoWithDefaultYes(question: string): Promise<boolean> {
+  const readline = (await import("node:readline")).createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+  const q = (await import("node:util"))
+    .promisify(readline.question)
+    .bind(readline) as unknown as (question: string) => Promise<string>;
+  const response: string = await q(`${question} (Y/n) `);
+  return response.toLowerCase() === "y";
 }
