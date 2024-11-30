@@ -7,7 +7,7 @@
     "prepublishOnly": "make prepublishOnly"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.7.2",
+    "@biomejs/biome": "v1.9.4",
     "@types/bun": "latest",
     "readme-cli-help": "^0.1.8",
     "typescript": "^5.4.5"
