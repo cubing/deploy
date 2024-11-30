@@ -1,10 +1,10 @@
 .PHONY: lint
 lint:
-	npx @biomejs/biome check ./src
+	npx @biomejs/biome check
 
 .PHONY: format
 format:
-	npx @biomejs/biome check --write ./src
+	npx @biomejs/biome check --write
 
 .PHONY: publish
 publish:
