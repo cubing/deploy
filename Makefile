@@ -22,5 +22,9 @@ check-readme-cli-help:
 clean:
 	rm -rf ./package-lock.json
 
+.PHONY: reset
+reset: clean
+	rm -rf ./node_modules
+
 .PHONY: prepublishOnly
 prepublishOnly: lint check-readme-cli-help
