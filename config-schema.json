@@ -18,11 +18,11 @@
       "type": "object",
       "properties": {
         "fromLocalDir": {
-          "description": "Deploy from this directory instead of the default (e.g. https://example.com/path/to/dir → ./dist/web/example.com/path/to/dir).",
+          "description": "Deploy from this directory instead of the default. (Default example: https://example.com/path/to/dir → ./dist/web/example.com/path/to/dir).",
           "type": ["string"]
         },
         "additionalExcludes": {
-          "description": "A list of additional paths to exclude.",
+          "description": "A list of additional paths to exclude. (The following are always excluded: `.git`, `.DS_Store`.)",
           "type": "array",
           "items": { "type": "string" }
         }
