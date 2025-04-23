@@ -9,13 +9,20 @@ function ensureTrailingSlash(s: string): string {
   return s;
 }
 
-async function printAndRun(command: PrintableShellCommand) {
+async function printAndRunSuccess(
+  command: PrintableShellCommand,
+): Promise<boolean> {
   command.print();
   if (!options["dry-run"]) {
     const { exited } = Bun.spawn(command.forBun());
-    if ((await exited) !== 0) {
-      throw new Error("Command failed.");
-    }
+    return (await exited) !== 0;
+  }
+  return true;
+}
+
+async function printAndRun(command: PrintableShellCommand) {
+  if (!(await printAndRunSuccess(command))) {
+    throw new Error("Command failed.");
   }
 }
 
@@ -78,9 +85,8 @@ export async function deployTarget(
   if (options["create-folder-on-server"]) {
     await printAndRun(sshMkdirCommand);
   }
-  try {
-    await printAndRun(rsyncCommand);
-  } catch {
+  // TODO: if we use `try { … } catch { … }` here, then `bun` incomprehensively hangs on the `ssh` `mkdir` command????
+  if (!(await printAndRunSuccess(rsyncCommand))) {
     if (
       await askYesNoWithDefaultYes(
         "Deployment failed. Try again by creating folder on the server?",
@@ -89,13 +95,12 @@ export async function deployTarget(
       await printAndRun(sshMkdirCommand);
       await printAndRun(rsyncCommand);
     }
-    console.log(`
+  }
+  console.log(`
 Successfully deployed:
 
   ${url}
 `);
-    return;
-  }
 }
 
 async function askYesNoWithDefaultYes(question: string): Promise<boolean> {
