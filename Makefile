@@ -1,3 +1,6 @@
+.PHONY: test
+test: lint check-readme-cli-help
+
 .PHONY: lint
 lint: setup
 	bun x @biomejs/biome check
