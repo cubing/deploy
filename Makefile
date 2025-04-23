@@ -26,6 +26,11 @@ setup:
 clean:
 	rm -rf ./package-lock.json
 
+.PHONY: deploy
+deploy: setup
+	# Since `@cubing/deploy` is the repo package, we can invoke it by package name instead of manually specifying the entry point.
+	bun x @cubing/deploy
+
 .PHONY: reset
 reset: clean
 	rm -rf ./node_modules

@@ -1,14 +1,7 @@
 import assert from "node:assert";
 import { options } from "./options";
 import type { TargetOptions } from "./targetEntries";
-
-function barebonesShellEscape(s: string): string {
-  return s.replaceAll('"', '\\"');
-}
-
-function printCommand(c: string[]): void {
-  console.log(c.map((s) => `"${barebonesShellEscape(s)}"`).join(" "));
-}
+import { PrintableShellCommand } from "printable-shell-command";
 
 function ensureTrailingSlash(s: string): string {
   if (s.at(-1) !== "/") {
@@ -36,53 +29,62 @@ export async function deployTarget(
     );
   }
 
-  const rsyncCommand = ["rsync", "-avz"];
-  // rsyncCommand.push("--mkpath"); // TODO: requires `rsync` v3.2.3 (https://stackoverflow.com/a/65435579) but Dreamhost is stuck on 3.1.3. 😖
-  rsyncCommand.push("--exclude", ".DS_Store");
-  rsyncCommand.push("--exclude", ".git");
-  for (const additionalExclude of targetOptions.additionalExcludes ?? []) {
-    rsyncCommand.push("--exclude", additionalExclude);
-  }
-  rsyncCommand.push(localDistPath);
-
-  let login_host = url.hostname;
-  if (url.username) {
-    login_host = `${url.username}@${url.hostname}`;
-  }
-
   const serverFolder = url.hostname + url.pathname;
-
+  const login_host = (() => {
+    if (url.username) {
+      return `${url.username}@${url.hostname}`;
+    }
+    return url.hostname;
+  })();
   const rsyncTarget = `${login_host}:~/${serverFolder}`;
-  rsyncCommand.push(rsyncTarget);
 
-  const sshMkdirCommand = [
-    "ssh",
+  const rsyncCommand = (() => {
+    const rsyncCommandArgs: (string | [string, string])[] = ["-avz"];
+
+    /* TODO: The built-in macOS version is super old and doesn't support `--mkpath`. */
+    // if (options["create-folder-on-server"]) {
+    //   rsyncCommandArgs.push("--mkpath");
+    // }
+
+    rsyncCommandArgs.push(["--exclude", ".DS_Store"]);
+    rsyncCommandArgs.push(["--exclude", ".git"]);
+    for (const additionalExclude of targetOptions.additionalExcludes ?? []) {
+      rsyncCommandArgs.push(["--exclude", additionalExclude]);
+    }
+    rsyncCommandArgs.push(localDistPath);
+
+    rsyncCommandArgs.push(rsyncTarget);
+    return new PrintableShellCommand("rsync", rsyncCommandArgs);
+  })();
+
+  const mkdirCommand = new PrintableShellCommand("mkdir", ["-p", serverFolder]);
+  const sshMkdirCommand = new PrintableShellCommand("ssh", [
     login_host,
-    `mkdir -p "${barebonesShellEscape(serverFolder)}"`,
-  ];
+    mkdirCommand.getPrintableCommand(),
+  ]);
 
   console.log("--------");
   console.log(`Deploying from: ${localDistPath}`);
   console.log(`Deploying to: ${rsyncTarget}`);
   if (options["dry-run"]) {
     if (options["create-folder-on-server"]) {
-      console.write("[--dry-run] ");
-      printCommand(sshMkdirCommand);
+      console.log("[--dry-run] The following command would be run:");
+      sshMkdirCommand.print();
     }
-    console.write("[--dry-run] ");
-    printCommand(rsyncCommand);
+    console.log("[--dry-run] The following command would be run:");
+    rsyncCommand.print();
   } else {
     if (options["create-folder-on-server"]) {
-      assert((await Bun.spawn(sshMkdirCommand).exited) === 0);
+      assert((await Bun.spawn(sshMkdirCommand.forBun()).exited) === 0);
     }
-    if ((await Bun.spawn(rsyncCommand).exited) !== 0) {
+    if ((await Bun.spawn(rsyncCommand.forBun()).exited) !== 0) {
       if (
         await askYesNoWithDefaultYes(
           "Deployment failed. Try again by creating folder on the server?",
         )
       ) {
-        assert((await Bun.spawn(sshMkdirCommand).exited) === 0);
-        assert((await Bun.spawn(rsyncCommand).exited) === 0);
+        assert((await Bun.spawn(sshMkdirCommand.forBun()).exited) === 0);
+        assert((await Bun.spawn(rsyncCommand.forBun()).exited) === 0);
       }
     }
     console.log(`
