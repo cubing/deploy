@@ -13,4 +13,5 @@ for (const [targetURL, targetOptions] of targetEntries) {
     continue;
   }
   await deployTarget(targetURL, targetOptions);
+  console.log("done????");
 }

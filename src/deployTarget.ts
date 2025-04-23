@@ -1,13 +1,22 @@
-import assert from "node:assert";
+import { PrintableShellCommand } from "printable-shell-command";
 import { options } from "./options";
 import type { TargetOptions } from "./targetEntries";
-import { PrintableShellCommand } from "printable-shell-command";
 
 function ensureTrailingSlash(s: string): string {
   if (s.at(-1) !== "/") {
     return `${s}/`;
   }
   return s;
+}
+
+async function printAndRun(command: PrintableShellCommand) {
+  command.print();
+  if (!options["dry-run"]) {
+    const { exited } = Bun.spawn(command.forBun());
+    if ((await exited) !== 0) {
+      throw new Error("Command failed.");
+    }
+  }
 }
 
 // TODO: reuse connections based on domain or host IP.
@@ -60,38 +69,32 @@ export async function deployTarget(
   const mkdirCommand = new PrintableShellCommand("mkdir", ["-p", serverFolder]);
   const sshMkdirCommand = new PrintableShellCommand("ssh", [
     login_host,
-    mkdirCommand.getPrintableCommand(),
+    mkdirCommand.getPrintableCommand({ argumentLineWrapping: "inline" }),
   ]);
 
   console.log("--------");
   console.log(`Deploying from: ${localDistPath}`);
   console.log(`Deploying to: ${rsyncTarget}`);
-  if (options["dry-run"]) {
-    if (options["create-folder-on-server"]) {
-      console.log("[--dry-run] The following command would be run:");
-      sshMkdirCommand.print();
-    }
-    console.log("[--dry-run] The following command would be run:");
-    rsyncCommand.print();
-  } else {
-    if (options["create-folder-on-server"]) {
-      assert((await Bun.spawn(sshMkdirCommand.forBun()).exited) === 0);
-    }
-    if ((await Bun.spawn(rsyncCommand.forBun()).exited) !== 0) {
-      if (
-        await askYesNoWithDefaultYes(
-          "Deployment failed. Try again by creating folder on the server?",
-        )
-      ) {
-        assert((await Bun.spawn(sshMkdirCommand.forBun()).exited) === 0);
-        assert((await Bun.spawn(rsyncCommand.forBun()).exited) === 0);
-      }
+  if (options["create-folder-on-server"]) {
+    await printAndRun(sshMkdirCommand);
+  }
+  try {
+    await printAndRun(rsyncCommand);
+  } catch {
+    if (
+      await askYesNoWithDefaultYes(
+        "Deployment failed. Try again by creating folder on the server?",
+      )
+    ) {
+      await printAndRun(sshMkdirCommand);
+      await printAndRun(rsyncCommand);
     }
     console.log(`
 Successfully deployed:
 
-    ${url}
+  ${url}
 `);
+    return;
   }
 }
 
