@@ -85,7 +85,6 @@ export async function deployTarget(
   if (options["create-folder-on-server"]) {
     await printAndRun(sshMkdirCommand);
   }
-  // TODO: if we use `try { … } catch { … }` here, then `bun` incomprehensively hangs on the `ssh` `mkdir` command????
   if (!(await printAndRunSuccess(rsyncCommand))) {
     if (
       await askYesNoWithDefaultYes(
