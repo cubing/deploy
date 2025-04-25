@@ -31,8 +31,7 @@ clean:
 
 .PHONY: deploy
 deploy: setup
-	# Since `@cubing/deploy` is the repo package, we can invoke it by package name instead of manually specifying the entry point.
-	bun x @cubing/deploy
+	bun run src/main.ts
 
 .PHONY: reset
 reset: clean
