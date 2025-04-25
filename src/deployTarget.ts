@@ -15,7 +15,7 @@ async function printAndRunSuccess(
   command.print();
   if (!options["dry-run"]) {
     const { exited } = Bun.spawn(command.forBun());
-    return (await exited) !== 0;
+    return (await exited) === 0;
   }
   return true;
 }
