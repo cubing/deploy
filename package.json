@@ -16,6 +16,6 @@
     "https://experiments.cubing.net/test/deploy": {}
   },
   "dependencies": {
-    "printable-shell-command": "v0.1.4"
+    "printable-shell-command": "v0.3.2"
   }
 }
