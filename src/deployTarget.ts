@@ -85,7 +85,9 @@ export async function deployTarget(
   if (options["create-folder-on-server"]) {
     await printAndRun(sshMkdirCommand);
   }
-  if (!(await printAndRunSuccess(rsyncCommand))) {
+  try {
+    await printAndRun(rsyncCommand);
+  } catch (e) {
     if (
       await askYesNoWithDefaultYes(
         "Deployment failed. Try again by creating folder on the server?",
@@ -93,6 +95,8 @@ export async function deployTarget(
     ) {
       await printAndRun(sshMkdirCommand);
       await printAndRun(rsyncCommand);
+    } else {
+      throw e;
     }
   }
   console.log(`
@@ -111,5 +115,6 @@ async function askYesNoWithDefaultYes(question: string): Promise<boolean> {
     .promisify(readline.question)
     .bind(readline) as unknown as (question: string) => Promise<string>;
   const response: string = await q(`${question} (Y/n) `);
+  readline.close();
   return response.toLowerCase() === "y";
 }
