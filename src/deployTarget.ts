@@ -9,20 +9,10 @@ function ensureTrailingSlash(s: string): string {
   return s;
 }
 
-async function printAndRunSuccess(
-  command: PrintableShellCommand,
-): Promise<boolean> {
+async function printAndRun(command: PrintableShellCommand) {
   command.print();
   if (!options["dry-run"]) {
-    const { exited } = Bun.spawn(command.forBun());
-    return (await exited) === 0;
-  }
-  return true;
-}
-
-async function printAndRun(command: PrintableShellCommand) {
-  if (!(await printAndRunSuccess(command))) {
-    throw new Error("Command failed.");
+    await command.spawnNodeInherit().success;
   }
 }
 

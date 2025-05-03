@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+import { readFile } from "node:fs/promises";
 import { exit } from "node:process";
 import { printHelpAndExit } from "./options";
 
@@ -7,14 +9,13 @@ export interface TargetOptions {
 }
 const targetOptionsFields = { fromLocalDir: true, additionalExcludes: true }; // TODO: make this more DRY
 
-const packageJSONFile = Bun.file("package.json");
-if (!(await packageJSONFile.exists())) {
+if (!existsSync("./package.json")) {
   console.error(
     "Please run `@cubing/deploy` in a folder with a `package.json` file.",
   );
   printHelpAndExit(1);
 }
-const packageJSON = await packageJSONFile.json();
+const packageJSON = JSON.parse(await readFile("./package.json", "utf-8"));
 const cubingDeployArgs: Record<string, TargetOptions>[] =
   packageJSON["@cubing/deploy"];
 if (!cubingDeployArgs) {
