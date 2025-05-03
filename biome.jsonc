@@ -1,5 +1,9 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "files": {
+    // TODO: Excluding `node_modules` is only temporarily necessary due to a bug: https://github.com/biomejs/biome/issues/5812#issuecomment-2841765931
+    "includes": ["!node_modules/"]
+  },
   "formatter": {
     "indentStyle": "space",
     "indentWidth": 2
