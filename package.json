@@ -1,21 +1,24 @@
 {
   "name": "@cubing/deploy",
   "version": "0.2.0",
-  "bin": "src/main.ts",
   "type": "module",
+  "bin": "./dist/lib/@cubing/deploy/main.js",
   "scripts": {
     "prepublishOnly": "make prepublishOnly"
   },
   "devDependencies": {
     "@biomejs/biome": "v1.9.4",
-    "@types/bun": "latest",
-    "readme-cli-help": "^0.1.8",
-    "typescript": "^5.4.5"
+    "@cubing/dev-config": "^0.1.2",
+    "@types/bun": "^1.2.11",
+    "esbuild": "^0.25.3",
+    "readme-cli-help": "^0.1.8"
   },
   "@cubing/deploy": {
     "https://experiments.cubing.net/test/deploy": {}
   },
   "dependencies": {
-    "printable-shell-command": "v0.3.2"
-  }
+    "printable-shell-command": "0.1.0-pre3",
+    "typescript": "^5.8.3"
+  },
+  "files": ["./dist/bin/"]
 }

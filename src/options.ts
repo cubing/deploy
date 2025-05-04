@@ -4,7 +4,7 @@ import { parseArgs } from "node:util";
 
 export function printHelpAndExit(exitCode: number): void {
   console.log(
-    `Usage: bun x @cubing/deploy
+    `Usage: npx @cubing/deploy (or: bun x @cubing/deploy)
 
 Deploy to a shared host like Dreamhost with minimal configuration.
 
@@ -14,7 +14,7 @@ Options:
     --dry-run
     --create-folder-on-server
 
-Requires \`bun\` and \`rsync\` to be installed. Reads target URLs from a field in \`package.json\` in the current folder:
+Requires \`rsync\` to be installed. Reads target URLs from a field in \`package.json\` in the current folder:
 
 {
   "@cubing/deploy": {
