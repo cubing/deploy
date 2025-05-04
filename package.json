@@ -1,6 +1,6 @@
 {
   "name": "@cubing/deploy",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
   "bin": "./dist/lib/@cubing/deploy/main.js",
   "scripts": {
@@ -20,5 +20,7 @@
     "printable-shell-command": "0.1.0-pre3",
     "typescript": "^5.8.3"
   },
-  "files": ["./dist/bin/"]
+  "files": [
+    "./dist/bin/"
+  ]
 }
