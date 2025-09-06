@@ -2,7 +2,7 @@
   "name": "@cubing/deploy",
   "version": "0.2.2",
   "type": "module",
-  "bin": "./dist/lib/@cubing/deploy/main.js",
+  "bin": "./dist/bin/@cubing/deploy/main.js",
   "scripts": {
     "prepublishOnly": "make prepublishOnly"
   },
