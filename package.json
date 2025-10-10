@@ -1,6 +1,6 @@
 {
   "name": "@cubing/deploy",
-  "version": "0.2.3",
+  "version": "0.2.4-dev",
   "type": "module",
   "bin": "./dist/bin/@cubing/deploy/main.js",
   "scripts": {
