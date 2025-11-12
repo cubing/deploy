@@ -17,7 +17,7 @@
     "https://experiments.cubing.net/test/deploy": {}
   },
   "dependencies": {
-    "printable-shell-command": "0.1.0-pre3",
+    "printable-shell-command": "^2.3.1",
     "typescript": "^5.8.3"
   },
   "files": [
