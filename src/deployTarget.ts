@@ -22,7 +22,6 @@ export async function deployTarget(
   targetURL: string,
   targetOptions: TargetOptions,
 ): Promise<void> {
-  // biome-ignore lint/style/noParameterAssign: Safety mechanism.
   targetURL = ensureTrailingSlash(targetURL); // Only sync folder contents.
 
   const url = new URL(targetURL); // TODO: avoid URL encoding special chars

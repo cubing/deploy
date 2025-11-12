@@ -1,23 +1,7 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "extends": ["./node_modules/@cubing/dev-config/biome/biome.json"],
   "files": {
-    "ignore": ["./package.json"]
-  },
-  "formatter": {
-    "indentStyle": "space",
-    "indentWidth": 2
-  },
-  "linter": {
-    "enabled": true,
-    "rules": {
-      "recommended": true,
-      "correctness": {
-        "noUnusedImports": "error"
-      }
-    }
-  },
-  "vcs": {
-    "clientKind": "git",
-    "enabled": true
+    "includes": ["**", "!dist", "!package.json"]
   }
 }
