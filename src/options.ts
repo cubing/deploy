@@ -29,6 +29,7 @@ This example will be deployed from the following folder:
 The following ignored patterns are always included:
 
 - \`.git\`
+- \`.jj\`
 - \`.DS_Store\` (impossible to prevent macOS from creating)
 
 Target URLs may include any of the following options:

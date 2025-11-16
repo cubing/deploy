@@ -52,8 +52,9 @@ export async function deployTarget(
     //   rsyncCommandArgs.push("--mkpath");
     // }
 
-    rsyncCommandArgs.push(["--exclude", ".DS_Store"]);
     rsyncCommandArgs.push(["--exclude", ".git"]);
+    rsyncCommandArgs.push(["--exclude", ".jj"]);
+    rsyncCommandArgs.push(["--exclude", ".DS_Store"]);
     for (const additionalExclude of targetOptions.additionalExcludes ?? []) {
       rsyncCommandArgs.push(["--exclude", additionalExclude]);
     }
