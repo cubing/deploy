@@ -90,10 +90,12 @@ export async function deployTarget(
       throw e;
     }
   }
+  const printURL = new URL(url);
+  printURL.username = "";
   console.log(`
 Successfully deployed:
 
-  ${url}
+  ${printURL}
 `);
 }
 
