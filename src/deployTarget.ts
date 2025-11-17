@@ -80,8 +80,9 @@ export async function deployTarget(
     await printAndRun(rsyncCommand);
   } catch (e) {
     if (
-      await askYesNoWithDefaultYes(
+      await askYesNo(
         "Deployment failed. Try again by creating folder on the server?",
+        { default: "y" },
       )
     ) {
       await printAndRun(sshMkdirCommand);
@@ -99,15 +100,29 @@ Successfully deployed:
 `);
 }
 
-async function askYesNoWithDefaultYes(question: string): Promise<boolean> {
-  const readline = (await import("node:readline")).createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-  const q = (await import("node:util"))
-    .promisify(readline.question)
-    .bind(readline) as unknown as (question: string) => Promise<string>;
-  const response: string = await q(`${question} (Y/n) `);
-  readline.close();
-  return response.toLowerCase() === "y";
+async function askYesNo(
+  question: string,
+  options?: { default?: "y" | "n" },
+): Promise<boolean> {
+  function letter(c: string) {
+    return options?.default === c ? c.toUpperCase() : c;
+  }
+  while (true) {
+    const readline = (await import("node:readline")).createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
+    const q = (await import("node:util"))
+      .promisify(readline.question)
+      .bind(readline) as unknown as (question: string) => Promise<string>;
+    const yn = `${letter("y")}/${letter("n")}`;
+    const response: string = await q(`${question} (${yn}) `);
+    readline.close();
+    if (response.toLowerCase() || options?.default === "y") {
+      return true;
+    }
+    if (response.toLowerCase() || options?.default === "n") {
+      return false;
+    }
+  }
 }
