@@ -8,7 +8,7 @@ export function printHelpAndExit(exitCode: number): never {
 
 Deploy to a shared host like Dreamhost with minimal configuration.
 
-Options:
+Runtime arguments:
 
     --help
     --dry-run

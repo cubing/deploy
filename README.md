@@ -26,14 +26,14 @@ npm install --save-dev @cubing/deploy
 bun x @cubing/deploy
 ```
 
-## More options
+## Help
 
 ````cli-help
 Usage: npx @cubing/deploy (or: bun x @cubing/deploy)
 
 Deploy to a shared host like Dreamhost with minimal configuration.
 
-Options:
+Runtime arguments:
 
     --help
     --dry-run
