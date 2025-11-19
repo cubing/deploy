@@ -17,6 +17,10 @@
       "description": "Deploy target custom configuration.",
       "type": "object",
       "properties": {
+        "username": {
+          "description": "SSH username for the deployment",
+          "type": ["string"]
+        },
         "fromLocalDir": {
           "description": "Deploy from this directory instead of the default. (Default example: https://example.com/path/to/dir → ./dist/web/example.com/path/to/dir).",
           "type": ["string"]

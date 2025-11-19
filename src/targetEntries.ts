@@ -4,10 +4,15 @@ import { exit } from "node:process";
 import { printHelpAndExit } from "./options";
 
 export interface TargetOptions {
+  username?: string;
   fromLocalDir?: string;
   additionalExcludes?: string[];
 }
-const targetOptionsFields = { fromLocalDir: true, additionalExcludes: true }; // TODO: make this more DRY
+const targetOptionsFields = {
+  username: true,
+  fromLocalDir: true,
+  additionalExcludes: true,
+}; // TODO: make this more DRY
 
 if (!existsSync("./package.json")) {
   console.error(

@@ -24,6 +24,16 @@ export async function deployTarget(
   targetURL = ensureTrailingSlash(targetURL); // Only sync folder contents.
 
   const url = new URL(targetURL); // TODO: avoid URL encoding special chars
+  if (url.username) {
+    console.error(
+      "URL must not contain a username. Specify this in the options or your SSH config instead.",
+    );
+  }
+  if (url.password) {
+    console.error(
+      "URL must not contain a password. Specify this in your SSH config instead.",
+    );
+  }
 
   let localDistPath: string;
   if (targetOptions.fromLocalDir) {
@@ -36,8 +46,18 @@ export async function deployTarget(
 
   const serverFolder = url.hostname + url.pathname;
   const login_host = (() => {
-    if (url.username) {
-      return `${url.username}@${url.hostname}`;
+    if (targetOptions.username) {
+      // Encode username by round-tripping it through a URL.
+      const tempURL = new URL("https://example.com");
+      tempURL.username = targetOptions.username;
+      const { username } = tempURL;
+      if (username !== targetOptions) {
+        console.warn(
+          "WARNING: Encoded username does not match the specified username. Is it valid?",
+        );
+      }
+
+      return `${username}@${url.hostname}`;
     }
     return url.hostname;
   })();
@@ -91,7 +111,6 @@ export async function deployTarget(
     }
   }
   const printURL = new URL(url);
-  printURL.username = "";
   console.log(`
 Successfully deployed:
 
