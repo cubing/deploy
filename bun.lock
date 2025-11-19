@@ -1,10 +1,11 @@
 {
   "lockfileVersion": 1,
+  "configVersion": 0,
   "workspaces": {
     "": {
       "name": "@cubing/deploy",
       "dependencies": {
-        "printable-shell-command": "^2.3.1",
+        "printable-shell-command": "^2.6.3",
         "typescript": "^5.9.3",
       },
       "devDependencies": {
@@ -103,7 +104,7 @@
 
     "path-class": ["path-class@0.6.1", "", { "dependencies": { "@types/node": "^24.7.1", "xdg-basedir": "^5.1.0" } }, "sha512-38ZYmRh38kFSKivJCHk9S4ZHOK4Wf6ocxHfYBdDmVN7GWVOXrYsxwMBQpjhGyPNBdiPo4W3X91x2TzGmxHBlUg=="],
 
-    "printable-shell-command": ["printable-shell-command@2.3.1", "", { "dependencies": { "path-class": "^0.6.1", "type-fest": "^5.1.0" }, "optionalDependencies": { "@types/bun": "^1.2.20", "@types/node": "^24.2.0" } }, "sha512-SqwSg8aN1FYlTAIEmcuQfF/KvnOzQ3FYjJfW6HFzXdNlzLp/H0ISMpUrx6dj/vUW2Tsm6jlgU8CbgeYPywtp1Q=="],
+    "printable-shell-command": ["printable-shell-command@2.6.3", "", { "dependencies": { "path-class": ">=0.6.1", "type-fest": ">=5.1.0" }, "optionalDependencies": { "@types/bun": "^1.2.20", "@types/node": "^24.2.0" } }, "sha512-u49zQsdil1clG2RKs+PQvoU64FfRXziMi8cTjrL7Cv92q1eYwyNnHM9PAux0qIme2ucWxn3gIYshkXhyS54y5A=="],
 
     "readme-cli-help": ["readme-cli-help@0.1.10", "", { "peerDependencies": { "typescript": "^5.0.0" }, "bin": { "readme-cli-help": "main.ts" } }, "sha512-HBu72nVFqoLIBtEQJo1bC+z9zPqz1D84pPSS9mjGPS35AFAoW0Qif7TJVotIpToWVwmjljF0EXeo9Qgy3KbxxQ=="],
 
