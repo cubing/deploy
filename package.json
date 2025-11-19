@@ -30,6 +30,8 @@
     "printable-shell-command": "^2.6.3"
   },
   "files": [
+    "./config-schema.json",
+    "./config-schema.package.json",
     "./dist/",
     "./src/"
   ]
