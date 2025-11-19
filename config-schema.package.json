@@ -1,0 +1,6 @@
+{
+  "allOf": [{ "$ref": "https://www.schemastore.org/package.json" }],
+  "properties": {
+    "@cubing/deploy": { "$ref": "./config-schema.json" }
+  }
+}
