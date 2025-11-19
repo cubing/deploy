@@ -19,7 +19,7 @@ async function printAndRun(command: PrintableShellCommand) {
 // TODO: reuse connections based on domain or host IP.
 export async function deployTarget(
   targetURL: string,
-  targetOptions: TargetOptions,
+  targetOptions?: TargetOptions,
 ): Promise<void> {
   targetURL = ensureTrailingSlash(targetURL); // Only sync folder contents.
 
@@ -36,7 +36,7 @@ export async function deployTarget(
   }
 
   let localDistPath: string;
-  if (targetOptions.fromLocalDir) {
+  if (targetOptions?.fromLocalDir) {
     localDistPath = ensureTrailingSlash(targetOptions.fromLocalDir);
   } else {
     localDistPath = ensureTrailingSlash(
@@ -46,7 +46,7 @@ export async function deployTarget(
 
   const serverFolder = url.hostname + url.pathname;
   const login_host = (() => {
-    if (targetOptions.username) {
+    if (targetOptions?.username) {
       // Encode username by round-tripping it through a URL.
       const tempURL = new URL("https://example.com");
       tempURL.username = targetOptions.username;
@@ -74,7 +74,7 @@ export async function deployTarget(
     rsyncCommandArgs.push(["--exclude", ".git"]);
     rsyncCommandArgs.push(["--exclude", ".jj"]);
     rsyncCommandArgs.push(["--exclude", ".DS_Store"]);
-    for (const additionalExclude of targetOptions.additionalExcludes ?? []) {
+    for (const additionalExclude of targetOptions?.additionalExcludes ?? []) {
       rsyncCommandArgs.push(["--exclude", additionalExclude]);
     }
     rsyncCommandArgs.push(localDistPath);
