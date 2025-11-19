@@ -1,7 +1,7 @@
 {
   "$schema": "./config-schema.package.json",
   "name": "@cubing/deploy",
-  "version": "0.4.3",
+  "version": "0.4.4-dev",
   "type": "module",
   "bin": "./dist/cli/main.js",
   "exports": {
