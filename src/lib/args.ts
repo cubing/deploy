@@ -2,7 +2,7 @@ import { argv, exit } from "node:process";
 
 import { parseArgs } from "node:util";
 
-export function printHelpAndExit(exitCode: number): void {
+export function printHelpAndExit(exitCode: number): never {
   console.log(
     `Usage: npx @cubing/deploy (or: bun x @cubing/deploy)
 
@@ -48,18 +48,22 @@ Target URLs may include any of the following options:
   exit(exitCode);
 }
 
-export const { values: options } = parseArgs({
-  args: argv.slice(2),
-  options: {
-    help: {
-      type: "boolean",
+export function getArgs() {
+  return parseArgs({
+    args: argv.slice(2),
+    options: {
+      help: {
+        type: "boolean",
+      },
+      "dry-run": {
+        type: "boolean",
+      },
+      "create-folder-on-server": {
+        type: "boolean",
+      },
     },
-    "dry-run": {
-      type: "boolean",
-    },
-    "create-folder-on-server": {
-      type: "boolean",
-    },
-  },
-  strict: true,
-});
+    strict: true,
+  }).values;
+}
+
+export type Args = ReturnType<typeof getArgs>;

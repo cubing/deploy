@@ -1,6 +1,17 @@
 import { PrintableShellCommand } from "printable-shell-command";
-import { options } from "./options";
-import type { TargetOptions } from "./targetEntries";
+import type { Args } from "./args";
+
+export interface TargetOptions {
+  username?: string;
+  fromLocalDir?: string;
+  additionalExcludes?: string[];
+}
+
+export const targetOptionsFields = {
+  username: true,
+  fromLocalDir: true,
+  additionalExcludes: true,
+}; // TODO: make this more DRY
 
 function ensureTrailingSlash(s: string): string {
   if (s.at(-1) !== "/") {
@@ -9,18 +20,19 @@ function ensureTrailingSlash(s: string): string {
   return s;
 }
 
-async function printAndRun(command: PrintableShellCommand) {
-  command.print();
-  if (!options["dry-run"]) {
-    await command.spawnTransparently().success;
-  }
-}
-
 // TODO: reuse connections based on domain or host IP.
-export async function deployTarget(
+export async function deploy(
   targetURL: string,
   targetOptions?: TargetOptions,
+  runtimeArgs?: Args,
 ): Promise<void> {
+  async function printAndRun(command: PrintableShellCommand) {
+    command.print();
+    if (!runtimeArgs?.["dry-run"]) {
+      await command.spawnTransparently().success;
+    }
+  }
+
   targetURL = ensureTrailingSlash(targetURL); // Only sync folder contents.
 
   const url = new URL(targetURL); // TODO: avoid URL encoding special chars
@@ -92,7 +104,7 @@ export async function deployTarget(
   console.log("--------");
   console.log(`Deploying from: ${localDistPath}`);
   console.log(`Deploying to: ${rsyncTarget}`);
-  if (options["create-folder-on-server"]) {
+  if (runtimeArgs?.["create-folder-on-server"]) {
     await printAndRun(sshMkdirCommand);
   }
   try {

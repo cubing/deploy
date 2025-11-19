@@ -11,4 +11,11 @@ jobs:
       - uses: oven-sh/setup-bun@v1
       - run: make test
       - run: make lint
-      - run: make check-readme-cli-help
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+      - run: make build

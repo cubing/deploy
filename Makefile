@@ -6,7 +6,7 @@ build: setup
 test: lint check-readme-cli-help
 
 .PHONY: lint
-lint: setup
+lint: setup check-readme-cli-help
 	bun x @biomejs/biome check
 	bun x tsc --noEmit --project .
 
@@ -20,11 +20,11 @@ publish:
 
 .PHONY: update-readme-cli-help
 update-readme-cli-help: setup
-	bun x readme-cli-help "bun run src/main.ts --help"
+	bun x readme-cli-help "bun run src/cli/main.ts --help"
 
 .PHONY: check-readme-cli-help
 check-readme-cli-help: setup
-	bun x readme-cli-help --check-only "bun run src/main.ts --help"
+	bun x readme-cli-help --check-only "bun run src/cli/main.ts --help"
 
 .PHONY: setup
 setup:
@@ -32,11 +32,13 @@ setup:
 
 .PHONY: clean
 clean:
-	rm -rf ./dist/bin ./package-lock.json
+	rm -rf ./dist ./package-lock.json
 
 .PHONY: deploy
 deploy: setup
-	bun run src/main.ts
+	mkdir -p ./dist/web
+	cp -R ./src/web/ ./dist/web/
+	bun run src/cli/main.ts
 
 .PHONY: test
 test: setup
