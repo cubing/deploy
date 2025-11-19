@@ -1,15 +1,19 @@
 import { PrintableShellCommand } from "printable-shell-command";
 import type { Args } from "./args";
 
+const DEFAULT_EXCLUDES = [".DS_Store", ".git", ".jj", "node_modules"];
+
 export interface TargetOptions {
   username?: string;
   fromLocalDir?: string;
+  skipDefaultExcludes?: true | string[];
   additionalExcludes?: string[];
 }
 
 export const targetOptionsFields = {
   username: true,
   fromLocalDir: true,
+  skipDefaultExcludes: true,
   additionalExcludes: true,
 }; // TODO: make this more DRY
 
@@ -83,9 +87,14 @@ export async function deploy(
     //   rsyncCommandArgs.push("--mkpath");
     // }
 
-    rsyncCommandArgs.push(["--exclude", ".git"]);
-    rsyncCommandArgs.push(["--exclude", ".jj"]);
-    rsyncCommandArgs.push(["--exclude", ".DS_Store"]);
+    if (targetOptions?.skipDefaultExcludes !== true) {
+      const toSkip = new Set(targetOptions?.skipDefaultExcludes ?? []);
+      for (const pattern of DEFAULT_EXCLUDES) {
+        if (!toSkip.has(pattern)) {
+          rsyncCommandArgs.push(["--exclude", pattern]);
+        }
+      }
+    }
     for (const additionalExclude of targetOptions?.additionalExcludes ?? []) {
       rsyncCommandArgs.push(["--exclude", additionalExclude]);
     }

@@ -19,11 +19,20 @@
       "properties": {
         "username": {
           "description": "SSH username for the deployment",
-          "type": ["string"]
+          "type": "string"
         },
         "fromLocalDir": {
           "description": "Deploy from this directory instead of the default. (Default example: https://example.com/path/to/dir → ./dist/web/example.com/path/to/dir).",
-          "type": ["string"]
+          "type": "string"
+        },
+        "skipDefaultExcludes": {
+          "description": "Skip all default excludes, or a subset. If any paths are included in `additionalExcludes`, that overrides this setting.",
+          "anyOf": [
+            {
+              "enum": [true]
+            },
+            { "type": "array", "items": { "type": "string" } }
+          ]
         },
         "additionalExcludes": {
           "description": "A list of additional paths to exclude. (The following are always excluded: `.git`, `.DS_Store`.)",
