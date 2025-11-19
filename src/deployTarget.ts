@@ -10,8 +10,7 @@ function ensureTrailingSlash(s: string): string {
 }
 
 async function printAndRun(command: PrintableShellCommand) {
-  // TODO: check for TTY presence?
-  command.print({ styleTextFormat: ["gray", "bold"] });
+  command.print();
   if (!options["dry-run"]) {
     await command.spawnTransparently().success;
   }
