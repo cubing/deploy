@@ -35,7 +35,7 @@
           ]
         },
         "additionalExcludes": {
-          "description": "A list of additional paths to exclude. (The following are always excluded: `.git`, `.DS_Store`.)",
+          "description": "A list of additional paths to exclude.",
           "type": "array",
           "items": { "type": "string" }
         }

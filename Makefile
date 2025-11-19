@@ -11,7 +11,7 @@ lint: setup check-readme-cli-help
 	bun x tsc --noEmit --project .
 
 .PHONY: format
-format: setup
+format: setup update-readme-cli-help
 	bun x @biomejs/biome check --write
 
 .PHONY: publish

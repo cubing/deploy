@@ -42,7 +42,6 @@ Options:
 Requires `rsync` to be installed. Reads target URLs from a field in `package.json` in the current folder:
 
 {
-  "$schema": "@cubing/deploy/config-schema.package.json",
   "@cubing/deploy": {
     "https://experiments.cubing.net/test/deploy": {}
   },
@@ -54,9 +53,10 @@ This example will be deployed from the following folder:
 
 The following ignored patterns are always included:
 
+- `.DS_Store` (impossible to prevent macOS from creating)
 - `.git`
 - `.jj`
-- `.DS_Store` (impossible to prevent macOS from creating)
+- `node_modules`
 
 Target URLs may include any of the following options:
 
