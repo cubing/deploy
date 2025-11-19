@@ -25,12 +25,12 @@ export async function deployTarget(
 
   const url = new URL(targetURL); // TODO: avoid URL encoding special chars
   if (url.username) {
-    console.error(
+    throw new Error(
       "URL must not contain a username. Specify this in the options or your SSH config instead.",
     );
   }
   if (url.password) {
-    console.error(
+    throw new Error(
       "URL must not contain a password. Specify this in your SSH config instead.",
     );
   }
