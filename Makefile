@@ -38,6 +38,10 @@ clean:
 deploy: setup
 	bun run src/main.ts
 
+.PHONY: test
+test: setup
+	bun test
+
 .PHONY: reset
 reset: clean
 	rm -rf ./node_modules
