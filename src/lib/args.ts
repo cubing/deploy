@@ -38,7 +38,9 @@ Target URLs may include any of the following options:
   "@cubing/deploy": {
     "$schema": "./node_modules/@cubing/deploy/config-schema.json",
     "https://experiments.cubing.net/test/deploy": {
+      "username": "myusername",
       "fromLocalDir": "./dist/custom-path/",
+      "skipDefaultExcludes": ["node_modules"],
       "additionalExcludes": [".cache"]
     }
   }
