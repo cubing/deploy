@@ -42,9 +42,10 @@ Options:
 Requires `rsync` to be installed. Reads target URLs from a field in `package.json` in the current folder:
 
 {
+  "$schema": "./node_modules/@cubing/deploy/config-schema.package.json",
   "@cubing/deploy": {
     "https://experiments.cubing.net/test/deploy": {}
-  },
+  }
 }
 
 This example will be deployed from the following folder:
