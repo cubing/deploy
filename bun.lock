@@ -5,7 +5,7 @@
     "": {
       "name": "@cubing/deploy",
       "dependencies": {
-        "path-class": ">=0.8.1",
+        "path-class": ">=0.10.3",
         "printable-shell-command": "^2.6.3",
       },
       "devDependencies": {
@@ -116,7 +116,7 @@
 
     "json-schema-traverse": ["json-schema-traverse@1.0.0", "", {}, "sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug=="],
 
-    "path-class": ["path-class@0.8.1", "", { "dependencies": { "@types/node": "^24.7.1", "readme-cli-help": "^0.1.10", "xdg-basedir": "^5.1.0" } }, "sha512-ThXv7G7y5PXDbY3hE2x9M57HvNh4pGL9Odl/gXh1WlpOerbN7ByZ0hDEDxVPpg5d9YwLONfCqEowElZsQEaIzQ=="],
+    "path-class": ["path-class@0.10.3", "", { "dependencies": { "@types/node": "^24.7.1", "xdg-basedir": "^5.1.0" } }, "sha512-teUDitVwoVlJTDOXb/WGwDcxRvcwVVdDh8IpfYzZ+E4FaPNtfE7py0eNE2mCNZ10m1IckTpQjCG2cujpw42tTw=="],
 
     "plural-chain": ["plural-chain@0.2.3", "", {}, "sha512-iqzW8/mS8+Yveu1mZtoEtdmg0yglWDM7mL1bKzD4H+BlMaGCl/Ig0oTfSy4oEm6A20sgLS0zWaLbgmRemr1bFg=="],
 
@@ -136,11 +136,7 @@
 
     "xdg-basedir": ["xdg-basedir@5.1.0", "", {}, "sha512-GCPAHLvrIH13+c0SuacwvRYj2SxJXQ4kaVTT5xgL3kPrz56XxkF21IGhjSE1+W0aw7gpBWRGXLCPnPby6lSpmQ=="],
 
-    "path-class/readme-cli-help": ["readme-cli-help@0.1.10", "", { "peerDependencies": { "typescript": "^5.0.0" }, "bin": { "readme-cli-help": "main.ts" } }, "sha512-HBu72nVFqoLIBtEQJo1bC+z9zPqz1D84pPSS9mjGPS35AFAoW0Qif7TJVotIpToWVwmjljF0EXeo9Qgy3KbxxQ=="],
-
     "printable-shell-command/path-class": ["path-class@0.7.2", "", { "dependencies": { "@types/node": "^24.7.1", "xdg-basedir": "^5.1.0" } }, "sha512-vXj1HNmjXZTSPNLaFStTCAIFlMVls9TW44lpI+CFeFbP7vZu7hvQ76ObHABm88NcWrizYQcqqOWeHRnc1TRZtA=="],
-
-    "readme-cli-help/path-class": ["path-class@0.10.3", "", { "dependencies": { "@types/node": "^24.7.1", "xdg-basedir": "^5.1.0" } }, "sha512-teUDitVwoVlJTDOXb/WGwDcxRvcwVVdDh8IpfYzZ+E4FaPNtfE7py0eNE2mCNZ10m1IckTpQjCG2cujpw42tTw=="],
 
     "readme-cli-help/printable-shell-command": ["printable-shell-command@2.7.3", "", { "dependencies": { "path-class": ">=0.6.1", "type-fest": ">=5.1.0" }, "optionalDependencies": { "@types/bun": "^1.2.20", "@types/node": "^24.2.0" } }, "sha512-dze0g2XUiBTp6EGd5kPSR2i422sabXWFjnk8qOqxbeUCxcNMNDjA2Z3XYq/8ZL6GmS7nhc/HjtRFXBvRP3c03A=="],
 
