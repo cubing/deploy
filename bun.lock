@@ -136,14 +136,6 @@
 
     "xdg-basedir": ["xdg-basedir@5.1.0", "", {}, "sha512-GCPAHLvrIH13+c0SuacwvRYj2SxJXQ4kaVTT5xgL3kPrz56XxkF21IGhjSE1+W0aw7gpBWRGXLCPnPby6lSpmQ=="],
 
-    "printable-shell-command/path-class": ["path-class@0.7.2", "", { "dependencies": { "@types/node": "^24.7.1", "xdg-basedir": "^5.1.0" } }, "sha512-vXj1HNmjXZTSPNLaFStTCAIFlMVls9TW44lpI+CFeFbP7vZu7hvQ76ObHABm88NcWrizYQcqqOWeHRnc1TRZtA=="],
-
     "readme-cli-help/printable-shell-command": ["printable-shell-command@2.7.3", "", { "dependencies": { "path-class": ">=0.6.1", "type-fest": ">=5.1.0" }, "optionalDependencies": { "@types/bun": "^1.2.20", "@types/node": "^24.2.0" } }, "sha512-dze0g2XUiBTp6EGd5kPSR2i422sabXWFjnk8qOqxbeUCxcNMNDjA2Z3XYq/8ZL6GmS7nhc/HjtRFXBvRP3c03A=="],
-
-    "readme-cli-help/printable-shell-command/path-class": ["path-class@0.10.2", "", { "dependencies": { "@types/node": "^24.7.1", "readme-cli-help": ">=0.3.1", "xdg-basedir": "^5.1.0" } }, "sha512-5NxurdtQiVkRdB1m738O7s1eQQdLr9VGPbRWsUDs2hqEEqhfENcgbQHC+s5zczhwtAzppmrB8VHijJi5NwE2Sg=="],
-
-    "readme-cli-help/printable-shell-command/path-class/readme-cli-help": ["readme-cli-help@0.4.0", "", { "dependencies": { "@optique/core": ">=0.7.2", "@optique/run": ">=0.7.2", "path-class": ">=0.10.2", "plural-chain": "^0.2.1", "printable-shell-command": "^2.7.3" }, "bin": { "readme-cli-help": "src/main.ts" } }, "sha512-606vRZWMDm1K1zeYC9GxOUqTOUNmUFBRDKwISuy57MNwVO4Uffr5eSP2ozjliTf3YJQ5V2NSNJs5GuEV0TN2+w=="],
-
-    "readme-cli-help/printable-shell-command/path-class/readme-cli-help/plural-chain": ["plural-chain@0.2.1", "", {}, "sha512-MTAkLYFtZL+yoFjYzUbsl3fiXftB16MS2AS9MLxApJIgv91neiu65LK/Jg3LNpah/38JErt2NrJsmYdpO1hiLQ=="],
   }
 }
