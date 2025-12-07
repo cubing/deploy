@@ -2,6 +2,9 @@
 build: setup
 	bun run ./script/build.ts
 
+.PHONY: check
+check: lint test build
+
 .PHONY: test
 test: lint check-readme-cli-help
 
