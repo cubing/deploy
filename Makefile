@@ -20,11 +20,11 @@ publish:
 
 .PHONY: update-readme-cli-help
 update-readme-cli-help: setup
-	bun x readme-cli-help "bun run src/cli/main.ts --help"
+	bun x readme-cli-help update
 
 .PHONY: check-readme-cli-help
 check-readme-cli-help: setup
-	bun x readme-cli-help --check-only "bun run src/cli/main.ts --help"
+	bun x readme-cli-help check
 
 .PHONY: setup
 setup:
