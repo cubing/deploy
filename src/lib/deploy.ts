@@ -149,7 +149,7 @@ async function askYesNo(
   while (true) {
     const readline = (await import("node:readline")).createInterface({
       input: process.stdin,
-      output: process.stdout,
+      output: process.stderr,
     });
     const q = (await import("node:util"))
       .promisify(readline.question)
