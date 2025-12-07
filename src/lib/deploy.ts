@@ -157,10 +157,11 @@ async function askYesNo(
     const yn = `${letter("y")}/${letter("n")}`;
     const response: string = await q(`${question} (${yn}) `);
     readline.close();
-    if (response.toLowerCase() || options?.default === "y") {
+    const choice = response.toLowerCase() || options?.default;
+    if (choice === "y") {
       return true;
     }
-    if (response.toLowerCase() || options?.default === "n") {
+    if (choice === "n") {
       return false;
     }
   }
