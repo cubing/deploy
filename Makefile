@@ -3,7 +3,7 @@ build: setup
 	bun run ./script/build.ts
 
 .PHONY: check
-check: lint test build
+check: lint test build check-package.json
 
 .PHONY: test
 test: lint check-readme-cli-help
@@ -16,6 +16,10 @@ lint: setup check-readme-cli-help
 .PHONY: format
 format: setup update-readme-cli-help
 	bun x @biomejs/biome check --write
+
+.PHONY: check-package.json
+check-package.json: build
+	bun x --package @cubing/dev-config package.json check
 
 .PHONY: publish
 publish:
@@ -52,4 +56,4 @@ reset: clean
 	rm -rf ./node_modules
 
 .PHONY: prepublishOnly
-prepublishOnly: lint check-readme-cli-help clean build
+prepublishOnly: clean check build

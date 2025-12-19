@@ -1,17 +1,26 @@
 {
-  "$schema": "./config-schema.package.json",
   "name": "@cubing/deploy",
   "version": "0.4.9-dev",
+  "description": "Dreamhost-compatible deploys using [`bun`](https://bun.sh/) and `rsync`.",
+  "author": "Lucas Garron <code@garron.net>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cubing/deploy.git"
+  },
   "type": "module",
-  "bin": "./dist/cli/main.js",
   "exports": {
     ".": {
       "types": "./dist/lib/@cubing/deploy/index.d.ts",
       "import": "./dist/lib/@cubing/deploy/index.js"
     }
   },
-  "scripts": {
-    "prepublishOnly": "make prepublishOnly"
+  "bin": {
+    "deploy": "dist/cli/main.js"
+  },
+  "dependencies": {
+    "path-class": ">=0.10.3",
+    "printable-shell-command": "^2.6.3"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.8",
@@ -22,17 +31,17 @@
     "readme-cli-help": ">=0.4.7",
     "typescript": "^5.9.3"
   },
-  "@cubing/deploy": {
-    "https://experiments.cubing.net/test/deploy": {}
-  },
-  "dependencies": {
-    "path-class": ">=0.10.3",
-    "printable-shell-command": "^2.6.3"
-  },
   "files": [
     "./config-schema.json",
     "./config-schema.package.json",
     "./dist/",
     "./src/"
-  ]
+  ],
+  "scripts": {
+    "prepublishOnly": "make prepublishOnly"
+  },
+  "@cubing/deploy": {
+    "https://experiments.cubing.net/test/deploy": {}
+  },
+  "$schema": "./config-schema.package.json"
 }
