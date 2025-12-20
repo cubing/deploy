@@ -1,6 +1,6 @@
 {
   "name": "@cubing/deploy",
-  "version": "0.4.10",
+  "version": "0.4.11-dev",
   "description": "Dreamhost-compatible deploys using [`bun`](https://bun.sh/) and `rsync`.",
   "author": "Lucas Garron <code@garron.net>",
   "license": "MIT",
