@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "path-class": ">=0.10.3",
-    "printable-shell-command": "^2.6.3"
+    "printable-shell-command": ">=2.6.3"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.8",

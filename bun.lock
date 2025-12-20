@@ -6,7 +6,7 @@
       "name": "@cubing/deploy",
       "dependencies": {
         "path-class": ">=0.10.3",
-        "printable-shell-command": "^2.6.3",
+        "printable-shell-command": ">=2.6.3",
       },
       "devDependencies": {
         "@biomejs/biome": "^2.3.8",
@@ -120,7 +120,7 @@
 
     "plural-chain": ["plural-chain@0.2.3", "", {}, "sha512-iqzW8/mS8+Yveu1mZtoEtdmg0yglWDM7mL1bKzD4H+BlMaGCl/Ig0oTfSy4oEm6A20sgLS0zWaLbgmRemr1bFg=="],
 
-    "printable-shell-command": ["printable-shell-command@2.6.3", "", { "dependencies": { "path-class": ">=0.6.1", "type-fest": ">=5.1.0" }, "optionalDependencies": { "@types/bun": "^1.2.20", "@types/node": "^24.2.0" } }, "sha512-u49zQsdil1clG2RKs+PQvoU64FfRXziMi8cTjrL7Cv92q1eYwyNnHM9PAux0qIme2ucWxn3gIYshkXhyS54y5A=="],
+    "printable-shell-command": ["printable-shell-command@3.0.3", "", { "dependencies": { "path-class": ">=0.10.3", "type-fest": ">=5.1.0" }, "peerDependencies": { "@types/bun": "^1.2.20", "@types/node": ">=24.2.0" } }, "sha512-YPHNc4rEopjtVQzUyOZ4n9y6s+MQ6HjwmlrrEotRBgGSs92WtTxfPYHNiuPP9uzHnXbZxAfSWTsNOmxFECs40g=="],
 
     "readme-cli-help": ["readme-cli-help@0.4.7", "", { "dependencies": { "@optique/core": ">=0.7.2", "@optique/run": ">=0.7.2", "ajv": "^8.17.1", "path-class": ">=0.10.3", "plural-chain": ">=0.2.3", "printable-shell-command": "^2.7.3" }, "bin": { "readme-cli-help": "src/main.ts" } }, "sha512-GZtKNWry1EFrctsFkq35B7GJG9C+ytfq9M/oyif88gvjcWpWOY5R4jEyu4Gp92sN29dYFbbbalpEbkZvriuXNw=="],
 
@@ -138,7 +138,7 @@
 
     "@cubing/dev-config/path-class": ["path-class@0.10.8", "", { "dependencies": { "xdg-basedir": "^5.1.0" }, "peerDependencies": { "@types/node": ">=24.7.1" } }, "sha512-grm0+XkLIZLH33wkK6aJKaWYPzLEYcDKUvRz8VEaP6Sk/BaxT72PCgrLuUP8/Xh4RZvnyj1YPBYER3BPBDHksw=="],
 
-    "@cubing/dev-config/printable-shell-command": ["printable-shell-command@3.0.3", "", { "dependencies": { "path-class": ">=0.10.3", "type-fest": ">=5.1.0" }, "peerDependencies": { "@types/bun": "^1.2.20", "@types/node": ">=24.2.0" } }, "sha512-YPHNc4rEopjtVQzUyOZ4n9y6s+MQ6HjwmlrrEotRBgGSs92WtTxfPYHNiuPP9uzHnXbZxAfSWTsNOmxFECs40g=="],
+    "printable-shell-command/path-class": ["path-class@0.10.8", "", { "dependencies": { "xdg-basedir": "^5.1.0" }, "peerDependencies": { "@types/node": ">=24.7.1" } }, "sha512-grm0+XkLIZLH33wkK6aJKaWYPzLEYcDKUvRz8VEaP6Sk/BaxT72PCgrLuUP8/Xh4RZvnyj1YPBYER3BPBDHksw=="],
 
     "readme-cli-help/printable-shell-command": ["printable-shell-command@2.7.3", "", { "dependencies": { "path-class": ">=0.6.1", "type-fest": ">=5.1.0" }, "optionalDependencies": { "@types/bun": "^1.2.20", "@types/node": "^24.2.0" } }, "sha512-dze0g2XUiBTp6EGd5kPSR2i422sabXWFjnk8qOqxbeUCxcNMNDjA2Z3XYq/8ZL6GmS7nhc/HjtRFXBvRP3c03A=="],
   }
