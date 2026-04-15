@@ -67,7 +67,7 @@ export async function deploy(
       const tempURL = new URL("https://example.com");
       tempURL.username = targetOptions.username;
       const { username } = tempURL;
-      if (username !== targetOptions) {
+      if (username !== targetOptions.username) {
         console.warn(
           "WARNING: Encoded username does not match the specified username. Is it valid?",
         );
