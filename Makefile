@@ -37,10 +37,6 @@ check-readme-cli-help: setup
 setup:
 	bun install --frozen-lockfile
 
-.PHONY: clean
-clean:
-	rm -rf ./dist ./package-lock.json
-
 .PHONY: deploy
 deploy: setup
 	mkdir -p ./dist/web
@@ -51,9 +47,15 @@ deploy: setup
 test: setup
 	bun test
 
+RM_RF = bun -e 'process.argv.slice(1).map(p => process.getBuiltinModule("node:fs").rmSync(p, {recursive: true, force: true, maxRetries: 5}))' --
+
+.PHONY: clean
+clean:
+	${RM_RF} ./dist/
+
 .PHONY: reset
 reset: clean
-	rm -rf ./node_modules
+	${RM_RF} ./node_modules/
 
 .PHONY: prepublishOnly
 prepublishOnly: clean check build
