@@ -4,7 +4,7 @@ import { parseArgs } from "node:util";
 
 export function printHelpAndExit(exitCode: number): never {
   console.log(
-    `Usage: npx @cubing/deploy (or: bun x @cubing/deploy)
+    `Usage: npx -- @cubing/deploy (or: bun x -- @cubing/deploy)
 
 Deploy to a shared host like Dreamhost with minimal configuration.
 

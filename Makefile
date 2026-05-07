@@ -1,25 +1,35 @@
 .PHONY: build
-build: setup
-	bun run ./script/build.ts
+build: build-js build-types
+
+.PHONY: build-js
+build-js: setup
+	bun run -- ./script/build.ts
+
+.PHONY: build-types
+build-types: setup
+	bun x -- bun-dx --package @typescript/native-preview tsgo -- --project ./tsconfig.types.json
 
 .PHONY: check
-check: lint test build check-package.json
-
-.PHONY: test
-test: lint check-readme-cli-help
+check: lint build check-package.json
 
 .PHONY: lint
-lint: setup check-readme-cli-help
-	bun x @biomejs/biome check
-	bun x tsc --noEmit --project .
+lint: lint-biome lint-typescript check-readme-cli-help
+
+.PHONY: lint-biome
+lint-biome: setup
+	bun x -- bun-dx --package @biomejs/biome biome -- check
+
+.PHONY: lint-typescript
+lint-typescript: setup
+	bun x -- bun-dx --package @typescript/native-preview tsgo -- --project ./tsconfig.json
 
 .PHONY: format
 format: setup update-readme-cli-help
-	bun x @biomejs/biome check --write
+	bun x -- bun-dx --package @biomejs/biome biome -- check --write
 
 .PHONY: check-package.json
 check-package.json: build
-	bun x --package @cubing/dev-config package.json check
+	bun x -- bun-dx --package @cubing/dev-config package.json -- check
 
 .PHONY: publish
 publish:
@@ -31,7 +41,7 @@ update-readme-cli-help: setup
 
 .PHONY: check-readme-cli-help
 check-readme-cli-help: setup
-	bun x readme-cli-help check
+	bun x -- bun-dx --package readme-cli-help readme-cli-help -- check
 
 .PHONY: setup
 setup:
